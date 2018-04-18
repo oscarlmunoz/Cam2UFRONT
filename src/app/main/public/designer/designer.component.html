@@ -1,0 +1,106 @@
+<div class="main-container">
+    <div class="row">
+        <!-- ********************************* LEFT MENU ********************************** -->
+        <div class="col-xl-3">
+            <div class="card">
+                <div class="card-header">Opciones</div>
+                <div class="card-body text-center">
+                    <div class="btn-group" role="group" aria-label="...">
+                            <button data-toggle="tooltip" data-placement="bottom" title="Delete element" type="button" class="btn btn-outline-danger" [disabled]="!selected"
+                                (click)="removeSelected();" pTooltip="Eliminar elemento del panel">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                            <button data-toggle="tooltip" data-placement="bottom" title="Send to back" type="button" class="btn btn-outline-primary" [disabled]="!selected"
+                                (click)="sendToBack();" pTooltip="Enviar atrás">
+                                <i class="fa fa-level-down" aria-hidden="true"></i>
+                            </button>
+                            <button data-toggle="tooltip" data-placement="bottom" title="Send to front" type="button" class="btn btn-outline-primary" [disabled]="!selected"
+                                (click)="bringToFront();" pTooltip="Traer al frente">
+                                <i class="fa fa-level-up" aria-hidden="true"></i>
+                            </button>
+                            <button data-toggle="tooltip" data-placement="bottom" title="Unselect" type="button" class="btn btn-outline-primary" [disabled]="!selected"
+                                (click)="cleanSelect()" pTooltip="Aplicar cambios">
+                                <i class="fa fa-hand-o-down" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="card">
+                <div class="card-header">Añadir diseño</div>
+                <div class="card-body max-height-left">
+                    <p-progressSpinner *ngIf="loadingDesign" animationDuration=".3s"></p-progressSpinner>
+                    <img *ngFor="let image of images" class="images-item" (click)="addImgFromCard($event)" src="http://localhost:8888/cam2uAPI/file/{{designUrl.url}}/{{image}}.png">
+                    <!-- <img *ngFor="let image of images" class="images-item" (click)="addImgFromCard($event)" src="http://oscarmunoz.es/api/file/{{designUrl.url}}/{{image}}.png"> -->
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">Subir imagen</div>
+                <div class="card-body text-center">
+                    <p-progressSpinner *ngIf="loadingAttach" animationDuration=".3s"></p-progressSpinner>
+                    <img id="testImage" *ngIf="url" class="images-item-upload" [src]="url" (click)="addImgFromCard($event);">
+                    <label class="fa fa-file-image-o btn btn-block btn-primary" pTooltip="Cargar una imagen">
+                        Buscar <input type="file" style="display: none;" (change)="readUrl($event);">
+                    </label>
+                    <div class="btn-group btn-group-justified" *ngIf="url" role="group" aria-label="...">
+                        <div class="btn-group" role="group">
+                            <button type="button" pTooltip="Quitar imagen cargada" class="btn btn-outline-danger btn-sm" (click)="removeUrl(url);">
+                                <i class="fa fa-times" aria-hidden="true"></i> Quitar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ********************************* CANVAS ********************************** -->
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-header">Panel de diseño</div>
+                <div class="card-body">
+                    <canvas  id="canvas" class="canvas">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+        <!-- ********************************* RIGHT MENU ********************************** -->
+        <div class="col-3">
+            <label *ngIf="designStarted" class="fa fa-thumbs-o-up btn btn-block btn-primary" pTooltip="Generar artículo" >
+                    ¡Listo! <input type="submit" (click)="showDialog()" style="display: none;">
+            </label>
+            <div class="card">
+                <div class="card-header">Añadir prenda</div>
+                <div class="card-body max-height-right" >
+                    <div class="garment-card" >
+                        <p-radioButton pTooltip="Prendas para hombre" (onClick)="getCategories()" name="groupGender" class="fa fa-male" value="Hombre" [(ngModel)]="selectedGender"></p-radioButton>
+                        <p-radioButton pTooltip="Prendas para mujer"(onClick)="getCategories()" name="groupGender" class="fa fa-female" value="Mujer" [(ngModel)]="selectedGender"></p-radioButton>
+                        <p-dropdown [disabled]="!selectedGender" (onChange)="changeGarmenPrice(selectedCategory)" appendTo="body" [style]="{'width':'100%'}" [options]="this.categories" optionLabel="tipo"  [(ngModel)]="selectedCategory" placeholder="Seleccione" ></p-dropdown>
+                        <button [disabled]="!selectedGender || !selectedCategory" pButton (click)="changeCategory()" type="button" label="Buscar" icon="fa fa-eye"></button>
+                    </div>
+                    <p-progressSpinner *ngIf="loadingGarment" animationDuration=".3s"></p-progressSpinner>
+                    <!-- <img *ngFor="let color of colors" class="images-item" (click)="addGarmentOnCanvas($event,color)" src="http://oscarmunoz.es/api/file/{{garmentUrl.url}}/{{color}}.png"> -->
+                    <img *ngFor="let color of colors" class="images-item" (click)="addGarmentOnCanvas($event,color)" src="http://localhost:8888/cam2uAPI/file/{{garmentUrl.url}}/{{color}}.png">
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<p-sidebar [(visible)]="display" position="left">
+    <div class="sidebar-div">
+        <span class="ui-float-label">
+            <input #dname="ngModel" pattern="[a-zA-ZñÑ\s\W]*" id="float-input" pInputText type="text" [(ngModel)]="nombre" size="30" > 
+            <label for="float-input">Nombre de su diseño.</label> 
+        </span>
+        <div *ngIf="dname.errors?.pattern"> 
+            Nombre de artículo no válido
+        </div> 
+        <p-dropdown (onChange)="change($event)" [options]="sizesAvailable" placeholder="Seleccione tamano" [(ngModel)]="selectedSize" [responsive]="true" [width]="350" [minWidth]="200" [minY]="70"></p-dropdown>
+        <br/><br><br>
+        <label *ngIf="!dname.errors && selectedSize && nombre " class="fa fa-tag btn btn-block btn-primary" pTooltip="Generar artículo" >
+            Crear artículo 
+            <input type="submit" [disabled]="!nombre || dname.errors || !selectedSize" (click)="generateArticle()" style="display: none;">
+        </label>
+    </div>
+</p-sidebar>
+<p-growl [(value)]="msgs"></p-growl>

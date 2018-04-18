@@ -1,0 +1,40 @@
+<div>
+    <h3 class="first">Gestión de artículos.</h3>
+    <div *ngIf="loading">
+            <p-progressBar mode="indeterminate"></p-progressBar>
+    </div>   
+
+  <p-table *ngIf="articles" [value]="articles" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Publicado</th>
+            <th>Acciones
+                <button pButton type="button" (click)="prepareUpdate()" class="ui-button-info" pTooltip="Editar Campos" icon="fa fa-pencil-square-o"></button>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template let-rowData pTemplate="body" let-article>
+        <tr>
+            <td>{{article.id_articulo}}</td>
+            <td>
+                <input type="text" [disabled]="!updateFlag" [(ngModel)]="article.nombre">
+            </td>
+            <td>
+              <input type="number" [disabled]="!updateFlag" [(ngModel)]="article.precio" >
+            </td>
+            <td>
+                <p-inputSwitch [disabled]="!updateFlag" onLabel="SÍ" offLabel="NO" [(ngModel)]="article.publicado"></p-inputSwitch>
+            </td>
+            <td>
+                <button pButton [disabled]="!updateFlag" type="button" (click)="updateArticle(article)" class="ui-button-success" pTooltip="Guardar Cambios" icon="fa fa-pencil-square-o"></button>
+                <button pButton [disabled]="!updateFlag" type="button" (click)="deleteArticle(article)" class="ui-button-danger" pTooltip="Eliminar" icon="fa fa-trash"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>
+
+<p-growl [value]="msgs"></p-growl>

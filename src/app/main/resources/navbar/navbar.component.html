@@ -1,0 +1,20 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark" >
+    <a class="navbar-brand" [routerLink]="['gallery']">Cam2U</a>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+
+        <li [routerLinkActive]="['active']" class="nav-item">
+          <a class="nav-link" novalidate [routerLink]="['gallery']"> Tienda</a>
+        </li>
+        <li [routerLinkActive]="['active']" class="nav-item">
+            <a class="nav-link" novalidate pTooltip="¡Diseña tu propia prenda!" [routerLink]="['designer']"> Diseñar</a>
+        </li>
+        <li [routerLinkActive]="['active']" class="nav-item">
+          <a class="nav-link" novalidate [routerLink]="['contact']">Contacto</a>
+        </li>
+      </ul>
+      <app-login></app-login>
+      <app-cart></app-cart>
+    </div>
+  </nav>

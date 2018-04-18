@@ -1,0 +1,54 @@
+<div>
+  <h3 class="first">Gestión de pedidos.</h3>
+  <div *ngIf="loading">
+        <p-progressBar mode="indeterminate"></p-progressBar>
+  </div>   
+<p-table *ngIf="orders" [value]="orders" [paginator]="true" [rows]="10">
+  <ng-template pTemplate="header">
+      <tr>
+          <th>ID del pedido</th>
+          <th>NIF del cliente</th>
+          <th>Estado del pedido</th>
+          <th>Acciones
+          </th>
+      </tr>
+  </ng-template>
+  <ng-template let-rowData pTemplate="body" let-order>
+      <tr>
+          <td>{{order?.id_pedido}}</td>
+          <td>
+              {{order?.nifCliente}} 
+          </td>
+          <td>
+              <p-dropdown appendTo="body" [style]="{'width':'50%'}" [options]="possibleStatus" optionLabel="tipo"  
+              [(ngModel)]="order.estado" (onChange)="change(order)" placeholder="{{order?.estado | status}}"  optionLabel="name"></p-dropdown>
+          </td>
+          <td>
+              <button pButton type="button" (click)="watchContent(order)" 
+              class="ui-button-success" pTooltip="Guardar Cambios" icon="fa fa-eye"></button>
+          </td>
+      </tr>
+  </ng-template>
+</p-table>
+</div>
+
+<p-dialog *ngIf="contents" header="Contenido del pedido" [(visible)]="displayContent"  [width]="300">
+  <p-table [value]="contents" [paginator]="true" [rows]="5">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>ID del artículo</th>
+            <th>cantidad</th>
+        </tr>
+    </ng-template>
+    <ng-template let-rowData pTemplate="body" let-content>
+        <tr>
+            <td>{{content.id_articulo}}</td>
+            <td>
+                {{content.cantidad}}
+            </td>
+        </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>
+
+<p-growl [value]="msgs"></p-growl>

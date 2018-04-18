@@ -1,0 +1,22 @@
+.hidden-links {
+    padding-left: 10px;
+    display: inline-block;
+    color: lightgreen;
+}
+
+i.logged-in {
+    color: lightgreen;
+    padding-left: 10px;
+}
+
+i.logged-out {
+    color: red;
+}
+
+.login-button{
+    padding-right: 9px;
+}
+
+.close-ses-button{
+    padding-left:80%;
+}

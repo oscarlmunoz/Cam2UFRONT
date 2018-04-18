@@ -1,0 +1,84 @@
+.mainContainer {
+    padding: 10px;
+}
+
+.container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+
+.container2 {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin: 0 14% 0 14%;
+}
+
+.headerContainer {
+    display: inline-block;
+    width: 100%;
+}
+
+.divContainer {
+    padding: 5px 10px 5px 20px;
+    display: inline-block;
+    padding: 20px;
+}
+
+.card {
+    width: 300px;
+    heigh: 100px; 
+    display: inline-block;
+}
+
+.price {
+    font-family: Georgia, Arial, Helvetica, sans-serif;
+    font-style: italic;
+    font-size: 25px;
+    line-height: 16px;
+    text-shadow: 1px 1px 2px rgba(245, 1, 1, 0.4);
+}
+
+h1 {
+    color: #7c795d;
+    font-family: 'Trocchi', serif;
+    font-size: 45px;
+    font-weight: normal;
+    line-height: 48px;
+    margin: 0;
+}
+
+h2 {
+    color: #4c4a37;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 32px;
+    margin: 0 0 24px;
+}
+
+.subheader {
+    font-size: 26px;
+    font-weight: 300;
+    color: #ffcc66;
+    margin: 0 0 24px;
+}
+
+p {
+    color: #4c4a37;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 18px;
+    line-height: 32px;
+    margin: 0 0 24px;
+}
+
+a {
+    color: #ff9900;
+    background: #fff4a3;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffcc66
+}

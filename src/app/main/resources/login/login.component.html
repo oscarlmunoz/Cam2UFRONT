@@ -1,0 +1,176 @@
+<a class="nav-link" *ngIf="adminLoggedIn" class="hidden-links" novalidate [routerLink]="['article_manager']">Gestión de artículos</a>
+<a class="nav-link" *ngIf="adminLoggedIn" class="hidden-links" novalidate [routerLink]="['order_manager']">Gestión de pedidos</a>
+<a class="nav-link" *ngIf="loggedIn" class="hidden-links" novalidate [routerLink]="['custom_order_manager']">Gestión de pedidos</a>
+
+<i (click)="adminDataDisplay()" *ngIf="adminLoggedIn" pTooltip="Panel de administrador" class="fa fa-hashtag logged-in">
+</i>
+<i (click)="userDataDisplay()" *ngIf="loggedIn" pTooltip="Panel de usuario" class="fa fa-user-circle-o logged-in">
+</i>
+<i (click)="loginDisplay()" *ngIf="!loggedIn && !adminLoggedIn" pTooltip="Entrar" class="fa fa-user-circle logged-out">
+</i>
+
+
+<!-- ************************************ REGISTRATION / LOGIN DISPLAY ************************************** -->
+<p-dialog header="Login/Registro" [autoAlign]="false" [(visible)]="loginOpen" [width]="400">
+  <p-accordion (onOpen)="onTabOpen($event)">
+
+    <!-- REGISTERING A NEW USER -->
+    <p-accordionTab header="Registrarse">
+      <!-- User name -->
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon">
+          <i class="fa fa-user"></i>
+        </span>
+        <input required #uname="ngModel" pattern="[a-zA-Z ]*" type="text" pInputText [(ngModel)]="nombre" placeholder="Nombre de usuario">
+      </div>
+      <div *ngIf="uname.errors?.pattern">
+        Solo caracteres.
+      </div>
+      <!-- User password -->
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon">
+          <i class="fa fa-user-secret"></i>
+        </span>
+        <input required #upass="ngModel" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}" type="password" [(ngModel)]="pass" pTooltip="{{infoCorrectPass}}"
+          pInputText placeholder="Password">
+        </div>
+        <div *ngIf="upass.errors?.pattern">
+            La contraseña no es fuerte.
+        </div>
+      <!-- User DNI -->
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon">
+          <i class="fa fa-id-badge"></i>
+        </span>
+        <input required pattern="\d{8}[a-zA-Z]" #udni="ngModel" type="text" pInputText [(ngModel)]="dni" placeholder="DNI">
+      </div>
+      <div *ngIf="udni.errors?.pattern">
+        DNI incorrecto
+      </div>
+      <!-- User phone number -->
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon">
+          <i class="fa fa-phone"></i>
+        </span>
+        <input #uphone="ngModel" pattern="[0-9]{9}" type="tel" [(ngModel)]="telefono" pInputText placeholder="Telefono">
+      </div>
+      <div *ngIf="uphone.errors?.pattern">
+        9 Cifras.
+      </div>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon">
+          <i class="fa fa-home"></i>
+          <textarea pInputTextarea placeholder="Dirección" [(ngModel)]="direccion"></textarea>
+        </span>
+      </div>
+      <button [disabled]="uname.errors || udni.errors || uphone.errors || !nombre || !pass || !dni || !telefono || !direccion"
+        (click)="registerUser()" pButton type="button" label="Registrarse" icon="fa fa-id-card"></button>
+    </p-accordionTab>
+
+    <!-- LOGGIN USER -->
+    <p-accordionTab header="Login">
+      <!-- User dni -->
+      <div *ngIf="!adminChecked" class="ui-inputgroup">
+        <span class="ui-inputgroup-addon">
+          <i class="fa fa-user"></i>
+        </span>
+        <input type="text" pInputText [(ngModel)]="dni" placeholder="Dni">
+      </div>
+      <!-- Admin name -->
+      <div *ngIf="adminChecked" class="ui-inputgroup">
+        <span class="ui-inputgroup-addon">
+          <i class="fa fa-user"></i>
+        </span>
+        <input type="text" pInputText [(ngModel)]="nombre" placeholder="Nombre">
+      </div>
+      <!-- User password -->
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon">
+          <i class="fa fa-user-secret"></i>
+        </span>
+        <input type="password" [(ngModel)]="pass" pInputText placeholder="Password">
+      </div>
+      <button pButton type="button" class="login-button" (click)="userLogin()" label="Login" icon="fa fa-id-card"></button>
+      <p-toggleButton [(ngModel)]="adminChecked" pTooltip="Elija tipo de usuario" onLabel="Admin" offLabel="Cliente" offIcon="fa fa-user-circle-o"
+        onIcon="fa-hashtag"></p-toggleButton>
+    </p-accordionTab>
+
+  </p-accordion>
+</p-dialog>
+
+<!-- ************************************ USER DATA DISPLAY ************************************** -->
+
+<p-dialog header="Panel de usuario" *ngIf="currentCustom" [autoAlign]="false" [(visible)]="userDataOpen" [height]="520" [width]="330">
+  <div>
+    <p-button (onClick)="closeSession()" pTooltip="Cerrar sesión" icon="fa fa-fw fa-close" class="close-ses-button"></p-button>
+  </div>
+  <!-- User DNI -->
+  <div class="ui-inputgroup">
+    <span class="ui-inputgroup-addon">
+      <i class="fa fa-id-badge"></i>
+    </span>
+    <input [disabled]="true" type="text" pInputText [(ngModel)]="currentCustom.dni" placeholder="DNI">
+  </div>
+  <!-- User name -->
+  <div class="ui-inputgroup">
+    <span class="ui-inputgroup-addon">
+      <i class="fa fa-user"></i>
+    </span>
+    <input type="text" pInputText [(ngModel)]="currentCustom.nombre" placeholder="Nombre de usuario">
+  </div>
+  <!-- User password -->
+  <div class="ui-inputgroup">
+    <span class="ui-inputgroup-addon">
+      <i class="fa fa-user-secret"></i>
+    </span>
+    <input type="password" [(ngModel)]="currentCustom.pass" pInputText placeholder="Password">
+  </div>
+  <!-- User phone number -->
+  <div class="ui-inputgroup">
+    <span class="ui-inputgroup-addon">
+      <i class="fa fa-phone"></i>
+    </span>
+    <input type="tel" [(ngModel)]="currentCustom.telefono" pInputText placeholder="Telefono">
+  </div>
+  <div class="ui-inputgroup">
+    <span class="ui-inputgroup-addon" style="width:254px">
+      <i class="fa fa-home"></i>
+      <textarea pInputTextarea style="width:215px" placeholder="Dirección" [(ngModel)]="currentCustom.direccion"></textarea>
+    </span>
+  </div>
+  <div class="ui-inputgroup">
+    <span class="ui-inputgroup-addon" style="width:255px">
+      <i class="fa fa-home"></i>
+      <p-inputSwitch onLabel="Activo" (onChange)="handleChangeActivo()" offLabel="Desactivar" [(ngModel)]="currentCustom.activo"></p-inputSwitch>
+    </span>
+  </div>
+  <button (click)="updateUser()" pButton type="button" style="width:255px" label="Actualizar datos" icon="fa fa-id-card"></button>
+</p-dialog>
+
+<!-- ************************************ ADMIN DATA DISPLAY ************************************** -->
+
+<p-dialog header="Panel de usuario" *ngIf="currentAdmin" [autoAlign]="false" [(visible)]="adminDataOpen" [height]="520" [width]="330">
+  <div>
+    <p-button (onClick)="closeSession()" pTooltip="Cerrar sesión" icon="fa fa-fw fa-close" style="padding-left:80%"></p-button>
+  </div>
+  <!-- Admin name -->
+  <div class="ui-inputgroup">
+    <span class="ui-inputgroup-addon">
+      <i class="fa fa-user"></i>
+    </span>
+    <input type="text" [disabled]="true" pInputText [(ngModel)]="currentAdmin.nombre" placeholder="Nombre de Administrador">
+  </div>
+  <!-- User password -->
+  <div class="ui-inputgroup">
+    <span class="ui-inputgroup-addon">
+      <i class="fa fa-user-secret"></i>
+    </span>
+    <input type="password" [(ngModel)]="currentAdmin.pass" pInputText placeholder="Password">
+  </div>
+  <button (click)="updateAdmin()" pButton type="button" label="Actualizar datos" icon="fa fa-id-card"></button>
+</p-dialog>
+
+<!-- ************************************** MESSAGES ************************************************ -->
+
+<p-growl [value]="msgs"></p-growl>
+<p-confirmDialog appendTo="body" #confirmDialog></p-confirmDialog>

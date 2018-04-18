@@ -1,0 +1,43 @@
+<!-- Prime Growl Message -->
+<p-growl [(value)]="msgs"></p-growl>
+<div class="container">
+    <div class="headerContainer">
+        <h1>Bienvenido</h1>
+        <h2>
+            Aplicación SPA web desarrollada en
+            <a>Angular + Typescript</a> como parte de interfaz, una
+            <a> Api-Rest en Php</a> como parte de servidor y base de datos en
+            <a>MySql</a>.
+        </h2>
+        <p>
+            Esta aplicación ha sido desarrollada como parte del Proyecto de fin de ciclo correspondiente al
+            <b>CFGS de Desarrollo de Aplicaciones Web</b> impartido en el centro
+            <b>IES Aguadulce</b> en su modalidad a distancia.
+        </p>
+
+    </div>
+</div>
+
+<div #mainContainer class="mainContainer">
+    <div *ngIf="loading">
+        <p-progressBar mode="indeterminate"></p-progressBar>
+    </div>
+    <div class="container2">
+        <div *ngFor="let article of articles" style="padding: 5px 10px 5px 20px; display: inline-block;">
+            <p-card title="{{article.nombre}}" subtitle="{{article.color}}" [style]="{width: '300px', heigh: '100px', display: 'inline-block'}"
+                styleClass="ui-card-shadow">
+                <p [innerHTML]="article.imagen | safe"></p>
+                <p-header>
+                    <p-overlayPanel #op1>
+                        <p [innerHTML]="article.imagen | safe"></p>
+                    </p-overlayPanel>
+                </p-header>
+                <div class="price"> {{article.precio}} €</div>
+                <p-footer>
+                    <button pButton type="button" (click)="addToCart(article)" label="Añadir al carro" icon="fas fa-cart-plus"></button>
+                </p-footer>
+            </p-card>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,45 @@
+<p-sidebar [(visible)]="display" position="right">
+    
+  <p-dataList *ngIf="shoppingCartItems && shoppingCartItems.length > 0" [paginator]="true" [rows]="3" [value]="shoppingCartItems">
+        <p-header>Lista de la compra
+            <div *ngIf="loading">
+                <p-progressBar mode="indeterminate"></p-progressBar>
+            </div> 
+        </p-header>
+        <ng-template let-item pTemplate="item">
+            <div class="ui-g ui-fluid item-item">  
+              
+              <div class="ui-g-12 ui-md-9 item-details"> 
+                  <div class="ui-g">
+                    <div class="ui-sm-6">Nombre: {{item.nombre}}</div>
+                    </div>
+                    <div class="ui-g">
+                      <div class=" ui-sm-6">Color: {{item.color}}</div>
+                    </div>
+                    <div class="ui-g">
+                      <div class=" ui-sm-6">Talla: {{item.tamano}}</div>
+                    </div>
+                    <div class="ui-g">
+                      <div class=" ui-sm-6">{{item.precio}} €</div>
+                    </div>
+
+                    <div class="ui-sm-6">
+                      <button class="remove-item" (click)="removeItem(item)">Remove</button>
+                    </div>
+                  
+              </div>      
+            </div>    
+        </ng-template>
+    </p-dataList>
+    <div *ngIf="shoppingCartItems && shoppingCartItems.length > 0">
+      Total: {{total}}€
+      <button pButton type="button" (click)="startOrder()" label="Comprar" icon="fas fa-cart-plus"></button>
+    </div>
+    
+    <div *ngIf="!shoppingCartItems.length">
+      CARRITO VACIO.
+    </div>
+</p-sidebar>
+<i (click)="display = true; onClick()" *ngIf="shoppingCartItems && shoppingCartItems.length > 0" pTooltip="¿Que tenemos por aquí...?"class="nav-link fa fa-shopping-cart"> {{(shoppingCartItems$ | async).length}}
+</i>
+<p-growl [value]="msgs"></p-growl>

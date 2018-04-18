@@ -1,0 +1,47 @@
+#canvas {
+  border: 2px dashed #cccccc;
+}
+
+div.main-container {
+  padding: 20px;
+}
+
+div.card-body {
+  padding: 15%;
+}
+
+div.garment-card {
+  display: block;
+}
+
+.max-height-right {
+  overflow: auto;
+  max-height: 600px;
+}
+
+.max-height-left {
+  overflow: auto;
+  max-height: 290px;
+}
+
+.images-item {
+  display: inline-block;
+  width: 48%;
+  cursor: pointer;
+  -webkit-transition: .5s ease;
+  -webkit-transition: .5s ease;
+  padding: 3px;
+  max-width: 120px;
+}
+
+.images-item-upload {
+  width: 80%;
+  cursor: pointer;
+  padding-bottom: 10px;
+  -webkit-transition: .5s ease;
+  -webkit-transition: .5s ease;
+}
+
+.sidebar-div{
+  padding-top: 15px;
+}
