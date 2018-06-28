@@ -1,6 +1,13 @@
-# Proyecto
+# Project
 
 This is the Front_end part of the Cam2U web app realized as final project for the HNC in Web Development at IES Aguadulce.
+
+![alt tag](https://github.com/oscarlmunoz/Cam2UFRONT/blob/master/cap1.png)
+![alt tag](https://github.com/oscarlmunoz/Cam2UFRONT/blob/master/cap2.png)
+![alt tag](https://github.com/oscarlmunoz/Cam2UFRONT/blob/master/cap3.png)
+![alt tag](https://github.com/oscarlmunoz/Cam2UFRONT/blob/master/cap4.png)
+![alt tag](https://github.com/oscarlmunoz/Cam2UFRONT/blob/master/cap5.png)
+![alt tag](https://github.com/oscarlmunoz/Cam2UFRONT/blob/master/cap6.png)
 
 ## How to install
 
